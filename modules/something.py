@@ -1,6 +1,6 @@
 from cli import cli
 
-cli.arg('some', help='Some parameter')
+cli.arg('some', group='Runner', help='Some parameter', default=100, type=int)
 
 
 class Runner(object):

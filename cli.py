@@ -12,8 +12,34 @@ class CLIParser(argparse.ArgumentParser):
             action='store_true',
             help='show this help message and exit')
 
-    def arg(self, key, **kwargs):
-        self.add_argument('--{}'.format(key), **kwargs)
+        self._args = dict()
+        self._groups = dict()
+        self._exclusive_groups = dict()
+
+    def arg(self, key, group=None, exclusive=None, required=False, **kwargs):
+        if group is None:
+            target = self
+        else:
+            arg_group = self._groups.get(group)
+            if arg_group is None:
+                arg_group = self.add_argument_group(group)
+                self._groups[group] = arg_group
+
+            target = arg_group
+
+        if exclusive is None:
+            target.add_argument(
+                '--{}'.format(key), required=required, **kwargs)
+        else:
+            ex_group = self._exclusive_groups.get(exclusive)
+            if ex_group is None:
+                ex_group = target.add_mutually_exclusive_group(
+                    required=required)
+                self._exclusive_groups[exclusive] = ex_group
+
+            ex_group.add_argument('--{}'.format(key), **kwargs)
+
+        self._args[key] = kwargs.get('default')
 
 
 cli = CLIParser()
