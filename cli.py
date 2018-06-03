@@ -41,5 +41,9 @@ class CLIParser(argparse.ArgumentParser):
 
         self._args[key] = kwargs.get('default')
 
+    @property
+    def default_args(self):
+        return self._args
+
 
 cli = CLIParser()
