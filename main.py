@@ -4,7 +4,7 @@ from importlib import import_module
 
 from cli import cli
 
-cli.arg('module', help='Module name for running', required=True)
+cli.add_arguments(cli.arg('module', 'Module name for running', required=True))
 
 
 def main():

@@ -1,6 +1,7 @@
 from cli import cli
 
-cli.arg('any', group='Runner', help='Any parameters', nargs='*')
+cli.add_arguments(
+    cli.group(cli.arg('any', 'Any parameters', nargs='*'), name='Runner'))
 
 
 class Runner(object):
